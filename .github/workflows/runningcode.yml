@@ -1,4 +1,4 @@
-name: Run Colab Notebook
+name: Run USDPEN Strategy Daily
 
 on:
   push:
@@ -6,51 +6,33 @@ on:
       - main
 
 jobs:
-  run:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    # Paso 1: Checkout del código del repositorio
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+    # Paso 2: Configurar Python en la versión deseada
+    - name: Set up Python
+      uses: actions/setup-python@v3
 
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install yfinance pandas numpy plotly ta matplotlib jupyter
+    # Paso 3: Instalar dependencias del sistema necesarias para TA-Lib
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libta-lib0 libta-lib0-dev
 
-      - name: Create output directory
-        run: |
-          mkdir -p output  # Crea la carpeta output si no existe
+    # Paso 4: Instalar las librerías de Python (sin requirements.txt)
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas numpy matplotlib seaborn TA-Lib tabulate nbconvert jupyter
 
-      - name: Run the notebook and capture output
-        run: |
-          # Captura la fecha y hora actual en formato YYYY-MM-DD_HH-MM-SS
-          fecha_hora=$(date +'%Y-%m-%d_%H-%M-%S')
-          # Ejecuta el notebook y redirige la salida a un archivo
-          jupyter nbconvert --to notebook --execute Estrategia_USDPEN.ipynb --output-dir=output --allow-errors
-          # Verifica si se creó el archivo de salida y renómbralo
-          mv output/Estrategia_USDPEN.ipynb output/"resultados_$fecha_hora.ipynb"
+    # Paso 5: Ejecutar el Jupyter Notebook y guardar la salida
+    - name: Run Jupyter Notebook and save output
+      run: |
+        jupyter nbconvert --to notebook --execute "GITHUB - Estrategia USDPEN.ipynb" --output output.ipynb
 
-      - name: Commit and push results to resultados branch
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          
-          # Verifica si el branch 'resultados' ya existe
-          if git show-ref --verify --quiet refs/heads/resultados; then
-            git checkout resultados  # Si existe, simplemente cámbiate a él
-          else
-            git checkout -b resultados  # Si no existe, créalo
-          fi
-          
-          # Copia el archivo de resultados a la raíz
-          cp output/"resultados_*.ipynb" .  # Copia el archivo con la fecha y hora
-          git add resultados_*.ipynb
-          git commit -m "Agregar resultados de ejecución del notebook"
-          git push -u origin resultados  # Haz push al branch 'resultados'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

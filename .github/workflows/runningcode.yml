@@ -1,0 +1,27 @@
+name: Run Colab Notebook
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4  # Actualizado a la versión 4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip  # Asegura que pip esté actualizado
+          pip install yfinance pandas numpy plotly ta matplotlib jupyter  # Agregado jupyter para ejecutar el cuaderno
+
+      - name: Run the notebook
+        run: |
+          jupyter nbconvert --to notebook --execute Estrategia_USDPEN.ipynb --output-dir=output --allow-errors  # Agregado --allow-errors para continuar con errores

@@ -28,10 +28,26 @@ jobs:
 
       - name: Run the notebook and capture output
         run: |
-          jupyter nbconvert --to notebook --execute Estrategia_USDPEN.ipynb --output-dir=output --allow-errors > output/resultados.txt 2>&1
+          # Captura la fecha y hora actual en formato YYYY-MM-DD_HH-MM-SS
+          fecha_hora=$(date +'%Y-%m-%d_%H-%M-%S')
+          jupyter nbconvert --to notebook --execute Estrategia_USDPEN.ipynb --output-dir=output --allow-errors > output/"resultados_$fecha_hora.txt" 2>&1
+
+      - name: Commit and push results to resultados branch
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
           
-      - name: Upload results
-        uses: actions/upload-artifact@v4
-        with:
-          name: notebook-results
-          path: output/
+          # Verifica si el branch 'resultados' ya existe
+          if git show-ref --verify --quiet refs/heads/resultados; then
+            git checkout resultados  # Si existe, simplemente cámbiate a él
+          else
+            git checkout -b resultados  # Si no existe, créalo
+          fi
+          
+          # Copia el archivo de resultados a la raíz
+          cp output/"resultados_*.txt" .  # Copia el archivo con la fecha y hora
+          git add resultados_*.txt
+          git commit -m "Agregar resultados de ejecución del notebook"
+          git push -u origin resultados  # Haz push al branch 'resultados'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

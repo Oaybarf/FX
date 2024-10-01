@@ -31,7 +31,7 @@ jobs:
           jupyter nbconvert --to notebook --execute Estrategia_USDPEN.ipynb --output-dir=output --allow-errors  # Agregado --allow-errors para continuar con errores
 
       - name: Upload results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: notebook-results
           path: output/

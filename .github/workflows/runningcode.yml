@@ -13,23 +13,23 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v4  # Usando la versión 2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip  # Asegura que pip esté actualizado
-          pip install yfinance pandas numpy plotly ta matplotlib jupyter  # Agregado jupyter para ejecutar el cuaderno
+          pip install --upgrade pip
+          pip install yfinance pandas numpy plotly ta matplotlib jupyter
 
       - name: Create output directory
         run: |
           mkdir -p output  # Crea la carpeta output si no existe
 
-      - name: Run the notebook
+      - name: Run the notebook and capture output
         run: |
-          jupyter nbconvert --to notebook --execute Estrategia_USDPEN.ipynb --output-dir=output --allow-errors  # Agregado --allow-errors para continuar con errores
-
+          jupyter nbconvert --to notebook --execute Estrategia_USDPEN.ipynb --output-dir=output --allow-errors > output/resultados.txt 2>&1
+          
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:

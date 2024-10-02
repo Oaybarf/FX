@@ -41,6 +41,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install pandas jupyter nbconvert yfinance matplotlib pytz TA-Lib
+        pip install numpy==1.21.6  # Versión compatible con TA-Lib
 
     # Paso 6: Run the notebook
     - name: Run the Jupyter Notebook

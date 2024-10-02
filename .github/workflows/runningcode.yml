@@ -6,7 +6,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '54 22 * * *'  # Ejecuta todos los días a las 7pm UTC
+    - cron: '0 23 * * *'  # Ejecuta todos los días a las 7pm UTC
 
 jobs:
   run-notebook:

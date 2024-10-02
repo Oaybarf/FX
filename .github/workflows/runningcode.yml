@@ -23,7 +23,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install pandas jupyter nbconvert yfinance matplotlib pytz
+        pip install pandas jupyter nbconvert yfinance matplotlib pytz TA-Lib
         pip install pytz
 
     # Step 3: Run the notebook

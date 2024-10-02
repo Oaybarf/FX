@@ -3,7 +3,7 @@ name: Run Notebook
 # Este workflow se ejecutará cuando se empuje al branch 'main'
 on:
   schedule:
-    - cron: '20 23 * * *'  # Ejecuta todos los días a las 7pm UTC
+    - cron: '22 22 * * *'  # Ejecuta todos los días a las 7pm UTC
 
 jobs:
   run-notebook:

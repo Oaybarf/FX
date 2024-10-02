@@ -2,11 +2,8 @@ name: Run Notebook
 
 # Este workflow se ejecutará cuando se empuje al branch 'main'
 on:
-  push:
-    branches:
-      - main
   schedule:
-    - cron: '0 23 * * *'  # Ejecuta todos los días a las 7pm UTC
+    - cron: '5 23 * * *'  # Ejecuta todos los días a las 7pm UTC
 
 jobs:
   run-notebook:
@@ -58,3 +55,10 @@ jobs:
         git add output.ipynb historical_close_price.png
         git commit -m "Action Corrida"
         git push origin main
+
+    # Paso 8: Guardar artifacts
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: historical-price-plot
+        path: historical_close_price.png

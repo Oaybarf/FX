@@ -1,38 +1,39 @@
-name: Run USDPEN Strategy Daily
+name: Run Notebook
 
+# Este workflow se ejecutará cuando se empuje al branch 'main'
 on:
   push:
     branches:
       - main
 
 jobs:
-  build:
+  run-notebook:
     runs-on: ubuntu-latest
 
     steps:
-    # Paso 1: Checkout del código del repositorio
-    - name: Checkout code
-      uses: actions/checkout@v4
+    # Paso 1: Chequear el repositorio
+    - name: Check out the repository
+      uses: actions/checkout@v3
 
-    # Paso 2: Configurar Python en la versión deseada
+    # Paso 2: Instalar dependencias de Python
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
 
-    # Paso 3: Instalar dependencias del sistema necesarias para TA-Lib
-    - name: Install system dependencies
+    - name: Install dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential libta-lib0 libta-lib0-dev
+        pip install pandas jupyter nbconvert
+        pip install pytz
 
-    # Paso 4: Instalar las librerías de Python (sin requirements.txt)
-    - name: Install Python dependencies
+    # Paso 3: Ejecutar el notebook
+    - name: Run Jupyter Notebook
       run: |
-        python -m pip install --upgrade pip
-        pip install pandas numpy matplotlib seaborn TA-Lib tabulate nbconvert jupyter
+        jupyter nbconvert --to notebook --execute Prueba_Github.ipynb --output output.ipynb
 
-    # Paso 5: Ejecutar el Jupyter Notebook y guardar la salida
-    - name: Run Jupyter Notebook and save output
-      run: |
-        jupyter nbconvert --to notebook --execute "GITHUB - Estrategia USDPEN.ipynb" --output output.ipynb
-
-
+    # Paso 4: Guardar el archivo de salida como artefacto
+    - name: Upload output notebook
+      uses: actions/upload-artifact@v3
+      with:
+        name: notebook-output
+        path: output.ipynb

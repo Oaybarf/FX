@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: '54 22 * * *'  # Ejecuta todos los días a las 7pm UTC
 
 jobs:
   run-notebook:

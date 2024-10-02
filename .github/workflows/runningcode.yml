@@ -23,7 +23,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install pandas jupyter nbconvert
+        pip install pandas jupyter nbconvert yfinance matplotlib pytz
         pip install pytz
 
     # Step 3: Run the notebook
@@ -36,6 +36,6 @@ jobs:
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add output.ipynb
-        git commit -m "Update notebook output"
+        git add output.ipynb historical_close_price.png
+        git commit -m "Update Output"
         git push origin main

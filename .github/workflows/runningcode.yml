@@ -21,10 +21,15 @@ jobs:
       with:
         python-version: '3.9'
 
+    # Paso 3: Instalar dependencias del sistema necesarias para TA-Lib
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libta-lib0 libta-lib0-dev
+        
     - name: Install dependencies
       run: |
         pip install pandas jupyter nbconvert yfinance matplotlib pytz TA-Lib
-        pip install pytz
 
     # Step 3: Run the notebook
     - name: Run the Jupyter Notebook

@@ -31,23 +31,23 @@ jobs:
         make
         sudo make install
         
-    # Paso 2: Instalar dependencias de Python
+    # Paso 4: Instalar dependencias de Python
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
 
-    # Paso 3: Instalar librerias    
+    # Paso 5: Instalar librerias    
     - name: Install dependencies
       run: |
         pip install pandas jupyter nbconvert yfinance matplotlib pytz TA-Lib
 
-    # Paso 4: Run the notebook
+    # Paso 6: Run the notebook
     - name: Run the Jupyter Notebook
       run: |
         jupyter nbconvert --to notebook --execute Prueba_Github.ipynb --output output.ipynb
 
-    # Paso 5: Commit and push changes using GITHUB_TOKEN
+    # Paso 7: Commit and push changes using GITHUB_TOKEN
     - name: Commit and push changes
       run: |
         git config --global user.name "github-actions[bot]"

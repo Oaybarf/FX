@@ -31,12 +31,12 @@ jobs:
       run: |
         pip install pandas jupyter nbconvert yfinance matplotlib pytz TA-Lib
 
-    # Step 3: Run the notebook
+    # Paso 4: Run the notebook
     - name: Run the Jupyter Notebook
       run: |
         jupyter nbconvert --to notebook --execute Prueba_Github.ipynb --output output.ipynb
 
-    # Step 4: Commit and push changes using GITHUB_TOKEN
+    # Paso 5: Commit and push changes using GITHUB_TOKEN
     - name: Commit and push changes
       run: |
         git config --global user.name "github-actions[bot]"

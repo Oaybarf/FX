@@ -47,12 +47,12 @@ jobs:
       run: |
         jupyter nbconvert --to notebook --execute Prueba_Github.ipynb --output output.ipynb
 
-    # Paso 7: Subir el archivo PNG generado como artifact
+    # Paso 7 Subir el archivo PNG generado como artifact directamente
     - name: Upload historical_close_price.png as artifact
       uses: actions/upload-artifact@v3
       with:
-        name: historical_close_price
-        path: historical_close_price.png
+        name: historical_close_price.png  # Nombre exacto del archivo
+        path: historical_close_price.png  # Ruta exacta del archivo generado
 
     # Paso 8: Commit and push changes using GITHUB_TOKEN
     - name: Commit and push changes

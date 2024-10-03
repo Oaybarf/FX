@@ -51,7 +51,7 @@ jobs:
     - name: Upload historical_close_price.png as artifact
       uses: actions/upload-artifact@v3
       with:
-        name: historical_close_price.png  # Nombre exacto del archivo
+        name: historical_close_price # Nombre exacto del archivo
         path: historical_close_price.png  # Ruta exacta del archivo generado
 
     # Paso 8: Commit and push changes using GITHUB_TOKEN

@@ -47,7 +47,7 @@ jobs:
     # Paso 6: Run the notebook
     - name: Run the Jupyter Notebook
       run: |
-        jupyter nbconvert --to notebook --execute Prueba_Github.ipynb --output output.ipynb
+        jupyter nbconvert --to notebook --execute Github_FX.ipynb --output output.ipynb
 
     # Paso 7 Subir el archivo PNG generado como artifact directamente
     - name: Upload historical_close_price.png as artifact

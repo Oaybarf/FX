@@ -2,7 +2,9 @@ name: Run Notebook
 
 on:
   schedule:
-    - cron: '30 * * * *'  # Ejecuta todos los días a cada hora en el minuto 0
+    # Ejecutar a las 4:00 p.m. y 5:00 p.m. hora de Perú (UTC-5)
+    - cron: '0 21 * * *'  # 4:00 p.m. Perú (21:00 UTC)
+    - cron: '0 22 * * *'  # 5:00 p.m. Perú (22:00 UTC)
   workflow_dispatch:
 
 jobs:
